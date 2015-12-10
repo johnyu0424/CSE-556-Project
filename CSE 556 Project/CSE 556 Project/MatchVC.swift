@@ -104,7 +104,7 @@ class MatchVC: UIViewController {
             
         else
         {
-            let fakePerson = Person(key: "fake person", rating: Rating(value: [46, 51, 0, 2, 1]), preference: Preference(value:[4, 6, 1, 2, 3]))
+            let fakePerson = Person(key: "Computer", rating: Rating(value: [46, 51, 0, 2, 1]), preference: Preference(value:[4, 6, 1, 2, 3]))
             self.entireData.append(fakePerson)
             
             let midPoint2 = self.entireData.count/2 - 1

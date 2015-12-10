@@ -84,13 +84,13 @@ class ViewController: UIViewController {
                 
             }
             
-            if user.username! == self.user!.username
+            if user.objectId! == self.user!.objectId
             {
                 self.rating.value = object["rating"] as! [Float]
                 self.preference.value = object["preference"] as! [Float]
                 self.index = i
                 
-                self.navigationItem.title = "Welcome, \(user.username!)!"
+                self.navigationItem.title = "Welcome, \(self.user!.username!)!"
             }
             
             self.entireData.append(convertFromPFObjectToPerson(object))

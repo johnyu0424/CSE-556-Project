@@ -20,7 +20,14 @@ class PreferenceVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
+    }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
     
     @IBAction func save(sender: AnyObject)
@@ -32,55 +39,45 @@ class PreferenceVC: UIViewController {
         self.preference.value.append(Float(self.interest4TextField.text!)!)
         self.preference.value.append(Float(self.interest5TextField.text!)!)
         
-        if self.preference.value.count != Set(self.preference.value).count
-        {
-            // Don't save
-            let alert = UIAlertController(title: "Error!", message: "Make sure no value is use more than once", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default) { _ in })
-            self.presentViewController(alert, animated: true){}
-        }
-        else
-        {
-            // Save
-            let user = PFUser.currentUser()
-            let query = PFQuery(className:"Data")
+         // Save
+        let user = PFUser.currentUser()
+        let query = PFQuery(className:"Data")
+        
+        query.whereKey("user", equalTo:user!)
+        query.findObjectsInBackgroundWithBlock{
+            (objects: [PFObject]?, error: NSError?) -> Void in
             
-            query.whereKey("user", equalTo:user!)
-            query.findObjectsInBackgroundWithBlock{
-                (objects: [PFObject]?, error: NSError?) -> Void in
-                
-                if error == nil
+            if error == nil
+            {
+                // The find succeeded.
+                print("Successfully retrieved \(objects!.count) scores.")
+                // Do something with the found objects
+                if let objects = objects
                 {
-                    // The find succeeded.
-                    print("Successfully retrieved \(objects!.count) scores.")
-                    // Do something with the found objects
-                    if let objects = objects
+                    if objects.count == 1
                     {
-                        if objects.count == 1
-                        {
-                            objects[0]["preference"] = self.preference.value
-                            objects[0].saveInBackground()
-                        }
-                        
-                        if objects.count == 0
-                        {
-                            let data = PFObject(className:"Data")
-                            data["preference"] = self.preference.value
-                            data["rating"] = []
-                            data["user"] = user!
-                            data.saveInBackground()
-                        }
+                        objects[0]["preference"] = self.preference.value
+                        objects[0].saveInBackground()
                     }
                     
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.navigationController?.popViewControllerAnimated(true)
-                    })
+                    if objects.count == 0
+                    {
+                        let data = PFObject(className:"Data")
+                        data["preference"] = self.preference.value
+                        data["rating"] = []
+                        data["user"] = user!
+                        data.saveInBackground()
+                    }
                 }
-                else
-                {
-                    // Log details of the failure
-                    print("Error: \(error!) \(error!.userInfo)")
-                }
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.navigationController?.popViewControllerAnimated(true)
+                })
+            }
+            else
+            {
+                // Log details of the failure
+                print("Error: \(error!) \(error!.userInfo)")
             }
         }
     }

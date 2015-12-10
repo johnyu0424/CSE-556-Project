@@ -32,7 +32,7 @@ def calcPreferenceValue():
 
     for i in range(5):
         rnd = random.randrange(len(preferenceV))
-        val = preferenceV.pop(rnd)
+        val = preferenceV[rnd]
         preferenceRating.append(val)
 
     return preferenceRating
@@ -140,14 +140,14 @@ def matchmaker():
         if not fiance:
             # She's free
             engaged[female[0]] = male
-            print("  %s and %s" % (male, female))
+            # print("  %s and %s" % (male, female))
         else:
             # The bounder proposes to an engaged lass!
             femaleList = femaleRankCopy[female[0]]
             if findIndex(femaleList, fiance) > findIndex(femaleList, male):
                 # She prefers new guy
                 engaged[female[0]] = male
-                print("  %s dumped %s for %s" % (female, fiance, male))
+                # print("  %s dumped %s for %s" % (female, fiance, male))
                 if maleRankCopy[fiance]:
                     # Ex has more girls to try
                     maleFree.append(fiance)
@@ -173,8 +173,8 @@ def findIndex(userData, data):
 # print femaleUsersData
 # print "\n"
 
-maleUsersData = {'Male 1': {'rating': [0.46, 0.51, 0.0, 0.02, 0.01], 'preference': [9, 6, 8, 5, 3]}, 'Male 3': {'rating': [0.19, 0.74, 0.07, 0.0, 0.0], 'preference': [8, 9, 4, 2, 1]}, 'Male 2': {'rating': [0.72, 0.04, 0.04, 0.12, 0.08], 'preference': [5, 3, 9, 2, 7]}, 'Male 5': {'rating': [0.24, 0.43, 0.21, 0.1, 0.02], 'preference': [9, 2, 4, 7, 6]}, 'Male 4': {'rating': [0.37, 0.5, 0.02, 0.05, 0.06], 'preference': [9, 3, 4, 6, 5]}}
-femaleUsersData = {'Female 1': {'rating': [0.97, 0.03, 0.0, 0.0, 0.0], 'preference': [3, 10, 2, 6, 5]}, 'Female 2': {'rating': [0.26, 0.69, 0.0, 0.05, 0.0], 'preference': [5, 6, 8, 7, 9]}, 'Female 3': {'rating': [0.17, 0.6, 0.18, 0.0, 0.05], 'preference': [1, 3, 6, 9, 4]}, 'Female 4': {'rating': [0.22, 0.15, 0.2, 0.36, 0.07], 'preference': [2, 3, 9, 5, 1]}, 'Female 5': {'rating': [1.0, 0.0, 0.0, 0.0, 0.0], 'preference': [6, 5, 7, 10, 3]}}
+maleUsersData = {'Male 1': {'rating': [0.18, 0.18, 0.21, 0.43, 0.0], 'preference': [8, 10, 4, 3, 8]}, 'Male 3': {'rating': [0.72, 0.15, 0.07, 0.06, 0.0], 'preference': [10, 4, 1, 2, 9]}, 'Male 2': {'rating': [0.93, 0.04, 0.03, 0.0, 0.0], 'preference': [5, 3, 8, 7, 5]}, 'Male 5': {'rating': [0.89, 0.02, 0.05, 0.01, 0.03], 'preference': [4, 5, 5, 9, 5]}, 'Male 4': {'rating': [0.35, 0.49, 0.06, 0.0, 0.1], 'preference': [5, 6, 9, 6, 5]}}
+femaleUsersData = {'Female 1': {'rating': [0.2, 0.22, 0.49, 0.03, 0.06], 'preference': [8, 6, 3, 2, 9]}, 'Female 2': {'rating': [0.3, 0.13, 0.2, 0.36, 0.01], 'preference': [8, 1, 1, 10, 10]}, 'Female 3': {'rating': [0.41, 0.39, 0.17, 0.02, 0.01], 'preference': [6, 9, 10, 2, 10]}, 'Female 4': {'rating': [0.46, 0.34, 0.03, 0.11, 0.06], 'preference': [6, 10, 4, 4, 4]}, 'Female 5': {'rating': [0.1, 0.42, 0.35, 0.1, 0.03], 'preference': [2, 6, 8, 3, 2]}}
 
 maleTotalScore = calcUserTotalScore(maleUsersData, femaleUsersData)
 femaleTotalScore = calcUserTotalScore(femaleUsersData, maleUsersData)
@@ -186,9 +186,11 @@ maleRank = rankUser(maleTotalScore)
 femaleRank = rankUser(femaleTotalScore)
 males = sorted(maleRank.keys())
 females = sorted(femaleRank.keys())
-# print maleRank
-# print femaleRank
-# print ""
+print "\n"
+print maleRank
+print "\n"
+print femaleRank
+print "\n\n"
 print matchmaker()
 
 # This is from http://rosettacode.org/wiki/Stable_marriage_problem#Python
