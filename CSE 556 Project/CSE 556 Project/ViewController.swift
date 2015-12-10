@@ -22,6 +22,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.rating = Rating(value: [])
         self.preference = Preference(value: [])
+        self.navigationItem.title = "Welcome!"
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -83,11 +84,13 @@ class ViewController: UIViewController {
                 
             }
             
-            if (object["user"] as! PFUser).username! == self.user!.username
+            if user.username! == self.user!.username
             {
                 self.rating.value = object["rating"] as! [Float]
                 self.preference.value = object["preference"] as! [Float]
                 self.index = i
+                
+                self.navigationItem.title = "Welcome, \(user.username!)!"
             }
             
             self.entireData.append(convertFromPFObjectToPerson(object))
