@@ -69,16 +69,35 @@ class MatchVC: UIViewController {
         
         if self.entireData.count % 2 == 0
         {
-            for var i = 0; i < self.entireData.count; i++
+            if self.userIndex <= midPoint
             {
-                if self.userIndex <= midPoint
+                for var i = 0; i < self.entireData.count; i++
                 {
-                    self.maleUserData.append(self.entireData[i])
+                    if i <= midPoint
+                    {
+                        self.maleUserData.append(self.entireData[i])
+                    }
+                        
+                    else
+                    {
+                        self.femaleUserData.append(self.entireData[i])
+                    }
                 }
-                    
-                else
+            }
+                
+            else
+            {
+                for var i = 0; i < self.entireData.count; i++
                 {
-                    self.femaleUserData.append(self.entireData[i])
+                    if i > midPoint
+                    {
+                        self.maleUserData.append(self.entireData[i])
+                    }
+                        
+                    else
+                    {
+                        self.femaleUserData.append(self.entireData[i])
+                    }
                 }
             }
         }
